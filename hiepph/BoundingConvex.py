@@ -27,16 +27,18 @@ class QuadTree():
             QuadTree(self.points, [(x1+x2)/2, (y1+y2/2), x2, y2])
         ]
 
-        # check density (number of point in coord) in each children
-        res = []
+        # check density (number of points in coord) in each child
+        res = set()
         for child in children:
-            if len(child.points) > D:
-                res += child.separate(D)
+            if len(child.points) <= D:
+                # update set of bounding coord
+                xchild1, ychild1, xchild2, ychild2 = child.coord
+                res.update(set({Point(xchild1, ychild1), Point(xchild1, ychild2),
+                                Point(xchild2, ychild1), Point(xchild2, ychild2)}))
+            else:
+                res.update(child.separate(D))
 
-        # return points in convex
-        for point in points:
-            if (point.x == x1 && point.y == y1) || (point.x == x2 && point.y == y2):
-                res.append(point)
+        # Return set of points of bounding box
         return res
 
 
