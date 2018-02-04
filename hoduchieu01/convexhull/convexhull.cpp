@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <algorithm>
+#include<bits/stdc++.h>
+
 using namespace std;
 
 typedef pair<int, int> ii;
@@ -14,25 +14,22 @@ bool cmp(ii A, ii B){ return ccw(origin, A, B); }
 int n;
 ii a[12309];
 
-main(){
-    freopen("convexhull_sample.in","r",stdin);
-    freopen("convexhull_sample.ans","w",stdout);
-
-    int i, t;
-    while(scanf("%d", &n)==1){
-    for (i=1; i<=n; i++)
-    scanf("%d%d", &a[i].X, &a[i].Y);
-
+signed main(){
+    ios_base::sync_with_stdio(false);
+   // freopen("convexhull_sample.in","r",stdin);
+    //freopen("convexhull_sample.ans","w",stdout);
+    while(scanf("%d", &n)!=0){
+    for(int i=1; i<=n; i++) cin>>a[i].X>>a[i].Y;
     sort(a+1, a+n+1);
     origin = a[1];
     sort(a+2, a+n+1, cmp);
     a[0]=a[n]; a[n+1]=a[1];
     int j=1;
-    for (i=1; i<=n+1; i++){
+    for (int i=1; i<=n+1; i++){
         while (j>2 && !ccw(a[j-2], a[j-1], a[i])) j--;
         a[j++]=a[i];
     }
     n=j-2;
-    for (i=1; i<=n; i++) printf("%d %d\n", a[i].X, a[i].Y);
+    for (int i=1;i<=n;i++) cout<<a[i].X<<" "<<a[i].Y<<endl;
     }
 }
