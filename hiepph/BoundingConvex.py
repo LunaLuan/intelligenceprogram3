@@ -54,7 +54,7 @@ def boundingConvex(points, D):
     if len(points) == 0:
         return []
     if len(points) == 1:
-        return [points.x, points.y]
+        return [points[0].x, points[0].y]
 
     # find rectangle bounding box
     rec = boundingRectangle(points)
