@@ -1,5 +1,5 @@
-// convex hull
-#include<bits/stdc++.h>
+#include <stdio.h>
+#include <algorithm>
 using namespace std;
 
 typedef pair<int, int> ii;
@@ -14,15 +14,14 @@ bool cmp(ii A, ii B){ return ccw(origin, A, B); }
 int n;
 ii a[12309];
 
-signed main(){
-  //  freopen("bounding.inp","r",stdin);
-  //  freopen("bounding.out","w",stdout);
+main(){
     int i, t;
-    while(scanf("%d",&n)==1){
+    while(scanf("%d", &n)==1){
     for (i=1; i<=n; i++)
-    cin>>a[i].X>>a[i].Y;
-    sort(a+1, a+n+1); // Sort các điểm theo tung độ, hoành độ
-    origin = a[1]; // điểm đầu tiên của bao lồi là điểm có tung độ hoành độ nhỏ nhất
+    scanf("%d%d", &a[i].X, &a[i].Y);
+
+    sort(a+1, a+n+1);
+    origin = a[1];
     sort(a+2, a+n+1, cmp);
     a[0]=a[n]; a[n+1]=a[1];
     int j=1;
@@ -31,7 +30,6 @@ signed main(){
         a[j++]=a[i];
     }
     n=j-2;
-    cout<<n<<endl;
-    for (i=1; i<=n; i++) cout<<a[i].X<<" "<< a[i].Y<<endl;
-}
+    for (i=1; i<=n; i++) printf("%d %d\n", a[i].X, a[i].Y);
+    }
 }
