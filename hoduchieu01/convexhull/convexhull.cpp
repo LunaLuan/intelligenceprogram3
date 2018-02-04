@@ -15,6 +15,9 @@ int n;
 ii a[12309];
 
 main(){
+    freopen("convexhull_sample.in","r",stdin);
+    freopen("convexhull_sample.ans","w",stdout);
+
     int i, t;
     while(scanf("%d", &n)==1){
     for (i=1; i<=n; i++)
