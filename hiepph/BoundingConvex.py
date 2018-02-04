@@ -35,7 +35,7 @@ class QuadTree():
 
         # return points in convex
         for point in points:
-            if (point.x == xmin && point.y == ymin) || (point.x == xmax && point.y == ymax):
+            if (point.x == x1 && point.y == y1) || (point.x2 == xmax && point.y == y2):
                 res.append(point)
         return res
 
