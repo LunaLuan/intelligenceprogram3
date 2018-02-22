@@ -1,58 +1,18 @@
 import matplotlib.pyplot as plt
 import numpy as np
+SAMPLE_RADIUS = 36
+import Tools
 
-def convex_hull(points):
-    """Computes the convex hull of a set of 2D points.
-
-    Input: an iterable sequence of (x, y) pairs representing the points.
-    Output: a list of vertices of the convex hull in counter-clockwise order,
-      starting from the vertex with the lexicographically smallest coordinates.
-    Implements Andrew's monotone chain algorithm. O(n log n) complexity.
-    """
-
-    # Sort the points lexicographically (tuples are compared lexicographically).
-    # Remove duplicates to detect the case we have just one unique point.
-    points = sorted(set(points))
-
-    # Boring case: no points or a single point, possibly repeated multiple times.
-    if len(points) <= 1:
-        return points
-
-    # 2D cross product of OA and OB vectors, i.e. z-component of their 3D cross product.
-    # Returns a positive value, if OAB makes a counter-clockwise turn,
-    # negative for clockwise turn, and zero if the points are collinear.
-    def cross(o, a, b):
-        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
-
-    # Build lower hull 
-    lower = []
-    for p in points:
-        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:
-            lower.pop()
-        lower.append(p)
-
-    # Build upper hull
-    upper = []
-    for p in reversed(points):
-        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:
-            upper.pop()
-        upper.append(p)
-
-    # Concatenation of the lower and upper hulls gives the convex hull.
-    # Last point of each list is omitted because it is repeated at the beginning 
-    # of the other list. 
-    return lower[:-1] + upper[:-1]
-# Example: convex hull of a 10-by-10 grid.
-#out = convex_hull([(i//10, i%10) for i in range(30)])
-#print(out)
-#print(testNpArray)
-#print(tuple(map(tuple, testNpArray)))
- 
 input = np.loadtxt("input2.txt", dtype='i', delimiter=' ')
-plt.scatter(input[:,0],input[:,1])
-output = np.asarray(convex_hull(tuple(map(tuple, input))))
-for i in range(int(output.size/2)-1):
-   plt.plot([output[i][0],output[i+1][0]],[output[i][1],output[i+1][1]],'r')
-plt.plot([output[int(output.size/2)-1][0],output[0][0]],[output[int(output.size/2)-1][1],output[0][1]],'r')
+plt.scatter(input[:,0],input[:,1],s=6*6)
+(outputLower, outputUpper) = Tools.convex_hull(input)
+for i in range(int(outputLower.size/2)-1):
+   plt.plot([outputLower[i][0],outputLower[i+1][0]],[outputLower[i][1],outputLower[i+1][1]],'r')
+for i in range(int(outputUpper.size/2)-1):
+   plt.plot([outputUpper[i][0],outputUpper[i+1][0]],[outputUpper[i][1],outputUpper[i+1][1]],'g')
+plt.plot([outputLower[-1][0],outputUpper[0][0]],[outputLower[-1][1],outputUpper[0][1]],'y')
+plt.plot([outputUpper[-1][0],outputLower[0][0]],[outputUpper[-1][1],outputLower[0][1]],'y')
+
+testPoint = Tools.testDensity(outputLower, outputUpper, SAMPLE_RADIUS, 20)
+plt.scatter(testPoint[:,0],testPoint[:,1],s=SAMPLE_RADIUS*SAMPLE_RADIUS, facecolors='none', edgecolors='k')
 plt.show()
-#print(output)
