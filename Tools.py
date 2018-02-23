@@ -45,7 +45,21 @@ def convex_hull(np_points):
     
     return (np.asarray(lower[:-1]), np.asarray(upper[:-1]))
 
-
+def isInsideCircle(x, y, center_x, center_y, radius):
+   dx = abs(x-center_x)
+   dy = abs(y-center_y)
+   R = radius
+   if dx>R : 
+      return False
+   if dy>R : 
+      return False
+   if dx + dy <= R : 
+      return True
+   if dx^2 + dy^2 <= R^2 : 
+      return True
+   else: 
+      return False
+   
 def testDensity(lower, upper, radius, n0ofTest):
    xMin = lower[0][0]
    xMax = upper[0][0]
