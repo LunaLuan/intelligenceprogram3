@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 SAMPLE_RADIUS = 36
-N0_OF_TEST = 4
+N0_OF_TEST = 15
 import Tools
 
 #Read input and draw convex hull polygon
@@ -21,9 +21,14 @@ plt.scatter(sample_circles[:,0],sample_circles[:,1],s=SAMPLE_RADIUS*SAMPLE_RADIU
 plt.show()
 
 #Count N0 of points inside sample circles
-points_inside = 0
-for point in input:
-   for circle in sample_circles:
+sample_data = []
+for circle in sample_circles:
+   points_inside = 0
+   for point in input:
       if Tools.isInsideCircle(point[0], point[1], circle[0], circle[1], SAMPLE_RADIUS):
          points_inside+=1
-print(points_inside)         
+   sample_data.append(points_inside)
+   
+print("STD = ",np.std(np.array(sample_data)))   
+for i in range(len(sample_data)):
+   print("Circle[",i,"] : ",sample_data[i]," points")
